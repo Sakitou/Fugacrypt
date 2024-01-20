@@ -62,70 +62,70 @@ def generate_random_password(length, use_uppercase=True, use_letters=True, use_n
         characters += "@~!#$%^*()-_=+"
 
     if not characters:
-        print("Erreur: Aucun type de caractères sélectionné.")
+        print("Error: No character type selected.")
         return None
 
     if not (use_uppercase or use_letters or use_numbers or use_symbols):
-        print("Erreur: Aucun type de caractères sélectionné.")
+        print("Error: No character type selected.")
         return None
 
     return ''.join(secrets.choice(characters) for _ in range(length))
 
 def generate_password_help():
     print("""
-Manuel d'utilisation de la fonction pwrd (Password Generator).
+Usage manual for the pwrd (Password Generator) function.
 
-Le générateur de mots de passes génère des mots de passes sûrs. 
-Il vous suffit d'utiliser la commande "-pwrd {nombre de caractères}".
+The password generator creates secure passwords.
+Simply use the command "-pwrd {number of characters}".
 
-Vous pouvez utiliser des options (cumulables entre elles) en plus. Les voici :
+You can use additional options (which can be combined). Here they are:
 
--s : permet de mettre des caractères spéciaux (@ ~ ! # $ % ^ * ( ) - _ = +)
--nomaj : permet de générer un mot de passe sans majuscules
--nol : permet de générer un mot de passe sans lettres
--nonum : permet de générer un mot de passe sans chiffres
+-s: include special characters (@ ~! # $ % ^ * ( ) - _ = +)
+-nomaj: generate a password without uppercase letters
+-nol: generate a password without letters
+-nonum: generate a password without numbers
 
-Pour plus d'information, vous pouvez aller voir le Wiki sur ma page GitHub
+For more information, you can check the Wiki on my GitHub page
 https://github.com/Sakitou/Fugacrypt/wiki/Password-Generator
 """)
 
 def main():
-    parser = argparse.ArgumentParser(description='Fugacrypt - Cryptage de fichiers avec AES256')
+    parser = argparse.ArgumentParser(description='Fugacrypt - File Encryption with AES256')
     parser.add_argument('-e', '--encrypt', nargs=3, metavar=('input_file', 'output_file', 'password'),
-                        help='Chiffrer le fichier avec AES256')
+                        help='Encrypt the file with AES256')
     parser.add_argument('-d', '--decrypt', nargs=3, metavar=('input_file', 'output_file', 'password'),
-                        help='Déchiffrer le fichier avec AES256')
+                        help='Decrypt the file with AES256')
     parser.add_argument('-key', '--generate_key', action='store_true',
-                        help='Générer une clé AES256')
+                        help='Generate an AES256 key')
     parser.add_argument('-pwrd', '--generate_password', nargs='+', metavar=('length'), type=int,
-                        help='Générer un mot de passe aléatoire de la longueur spécifiée')
+                        help='Generate a random password of the specified length')
     parser.add_argument('-s', '--symbols', action='store_true',
-                        help='Inclure des caractères spéciaux dans le mot de passe')
+                        help='Include special characters in the password')
     parser.add_argument('-nomaj', '--no_uppercase', action='store_true',
-                        help='Générer un mot de passe sans majuscules')
+                        help='Generate a password without uppercase letters')
     parser.add_argument('-nol', '--no_letters', action='store_true',
-                        help='Générer un mot de passe sans lettres')
+                        help='Generate a password without letters')
     parser.add_argument('-nonum', '--no_numbers', action='store_true',
-                        help='Générer un mot de passe sans chiffres')
+                        help='Generate a password without numbers')
     parser.add_argument('-github', '--github_redirect', action='store_true',
-                        help='Redirection vers https://github.com/Sakitou/Fugacrypt')
+                        help='Redirect to https://github.com/Sakitou/Fugacrypt')
     parser.add_argument('-install', '--install_redirect', action='store_true',
-                        help='Redirection vers https://github.com/Sakitou/Fugacrypt/wiki/Installation')
+                        help='Redirect to https://github.com/Sakitou/Fugacrypt/wiki/Installation')
 
     args = parser.parse_args()
 
     if args.encrypt:
-        print("Cryptage...")
+        print("Encrypting...")
         encrypt_file(args.encrypt[0], args.encrypt[1], args.encrypt[2])
-        print(f"Encrypté avec AES256 vers {args.encrypt[1]}")
+        print(f"Encrypted with AES256 to {args.encrypt[1]}")
 
     elif args.decrypt:
-        print("Décryptage...")
+        print("Decrypting...")
         decrypt_file(args.decrypt[0], args.decrypt[1], args.decrypt[2])
-        print(f"Décrypté vers {args.decrypt[1]}")
+        print(f"Decrypted to {args.decrypt[1]}")
 
     elif args.generate_key:
-        print(f"Clé AES256 générée : {generate_aes_key()}")
+        print(f"AES256 key generated: {generate_aes_key()}")
 
     elif args.generate_password:
         length = args.generate_password[0]
@@ -135,16 +135,16 @@ def main():
         use_symbols = args.symbols
         generated_password = generate_random_password(length, use_uppercase, use_letters, use_numbers, use_symbols)
         if generated_password:
-            print(f"Mot de passe généré : {generated_password}")
+            print(f"Generated password: {generated_password}")
 
     elif args.github_redirect:
-        print("Redirection vers https://github.com/Sakitou/Fugacrypt")
+        print("Redirecting to https://github.com/Sakitou/Fugacrypt")
 
     elif args.install_redirect:
-        print("Redirection vers https://github.com/Sakitou/Fugacrypt/wiki/Installation")
+        print("Redirecting to https://github.com/Sakitou/Fugacrypt/wiki/Installation")
 
     else:
-        print("Aucune option spécifiée. Utilisez -h pour voir les options disponibles.")
+        print("No option specified. Use -h to see available options.")
 
 if __name__ == "__main__":
     main()
